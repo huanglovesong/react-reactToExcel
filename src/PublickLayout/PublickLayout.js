@@ -1,5 +1,8 @@
 import React from 'react';
-import { Menu, Icon, Switch } from 'antd';
+import {
+  Menu,
+  Icon, Switch
+} from 'antd';
 
 const { SubMenu } = Menu;
 
@@ -21,9 +24,11 @@ class PublickLayout extends React.Component {
   };
 
   render() {
+    console.log(this.state.theme,2222)
+    console.log(2222222)
     return (
       <div>
-        {/* <Switch
+        <Switch
           checked={this.state.theme === 'dark'}
           onChange={this.changeTheme}
           checkedChildren="Dark"
@@ -68,7 +73,7 @@ class PublickLayout extends React.Component {
               <Menu.Item key="8">Option 8</Menu.Item>
             </SubMenu>
           </SubMenu>
-        </Menu> */}
+        </Menu>
         {this.props.children}
       </div>
     );

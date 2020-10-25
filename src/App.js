@@ -3,7 +3,9 @@ import React, { Component } from 'react'
 import logo from './logo.svg';
 import * as XLSX from 'xlsx';
 import './App.css';
+// var fs = require("fs")
 import BMap from 'BMap';
+
 import MobileDetect from 'mobile-detect';
 export default class App extends Component {
   constructor(props) {
@@ -107,22 +109,28 @@ export default class App extends Component {
             // break; // 如果只取第一张表，就取消注释这行
           }
         }
+        console.log(data, 1111)
         // data = data.slice(4900, 5500);
         for (let index = 0; index < data.length; index++) {
           const item = data[index];
-          if (item.详细地址) {
-            console.log(1);
-            let name = `${item.省}${item.市}${item.区}${item.详细地址}`;
-            item.name = name;
-            setTimeout(() => {
-              this.theLocationItem(item);
-            }, 1000 * index);
-          } else {
-            this.noArr.push(item);
-            console.log(this.noArr, '没有地区信息');
-          }
+          this.arr.push(item);
         }
-        console.log(data);
+        const nowData = data.map(o => {
+          return {
+            'restaurantName': o['餐厅名称'],
+            'restaurantChangeName': o['福禄调整后餐厅名称'],
+            'restaurantId': o['餐厅编码'],
+            'lonAndLat': o['经纬度'],
+            'province': o['省'],
+            'city': o['市'],
+            'area': o['区'],
+            'detailAddress': o['详细地址'],
+            'phoneShowAddress': o['手机点餐显示名称'],
+          }
+        });
+        // fs.writeFileSync("./1.txt",JSON.stringify(nowData))
+        // localStorage.setItem("aa",JSON.stringify(nowData));
+        console.log(nowData, 111);
       } catch (e) {
         // 这里可以抛出文件类型错误不正确的相关提示
         console.log('文件类型不正确');
@@ -135,7 +143,8 @@ export default class App extends Component {
   exportInf = (type) => {
     console.log(this[type]);
     console.log(JSON.stringify(this[type]), type);
-    var columname = ["餐厅名称", "餐厅编码", "发票抬头", "邮编", "省", "市", "区", "详细地址", "营业开始时间", "营业结束时间", "所属法人公司", "是否售卖现磨咖啡", "是否有早餐", "纬度", "经度", "区域"];
+    var columname = ["restaurantName", "restaurantChangeName", "restaurantId", "lonAndLat", "province", "city", "area", "detailAddress"];
+    // var columname = ["餐厅名称","福禄调整后餐厅名称", "餐厅编码", "经纬度", "省", "市", "区", "详细地址","手机点餐显示名称"];
 
     this.JSONToExcelConvertor(this[type], "地区数据表", columname);
   }
@@ -229,7 +238,7 @@ export default class App extends Component {
     link.click();
     document.body.removeChild(link);
   }
-  
+
   render() {
     return (
       <div>

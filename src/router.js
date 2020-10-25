@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch, BrowserRouter } from 'react-router-dom';
 import PageOne from './PageOne';
 import PageTwo from './PageTwo';
 import App from './App';
@@ -18,13 +18,13 @@ const WraperRouter = (props, WrappedComponent) => {
 }
 
 const BasicRoute = () => (
-    <HashRouter>
+    <BrowserRouter>
         <Switch>
             <Route exact path="/" render={(props) => WraperRouter(props, App)} />
             <Route exact path="/pageOne" render={(props) => WraperRouter(props, PageOne)} />
             <Route exact path="/pageTwo" render={(props) => WraperRouter(props, PageTwo)} />
         </Switch>
-    </HashRouter>
+    </BrowserRouter>
 );
 
 
